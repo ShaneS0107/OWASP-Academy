@@ -10,9 +10,21 @@ def get_connection():
     return connection
 
 
+
 def initialize_database(lessons):
     connection = get_connection()
-        # Add educational content columns to existing lessons table
+
+    # Create lessons table first
+    connection.execute("""
+        CREATE TABLE IF NOT EXISTS lessons (
+            id INTEGER PRIMARY KEY,
+            code TEXT NOT NULL UNIQUE,
+            title TEXT NOT NULL,
+            description TEXT NOT NULL
+        )
+    """)
+
+    # Check existing columns
     existing_columns = [
         column[1]
         for column in connection.execute(
@@ -20,6 +32,7 @@ def initialize_database(lessons):
         ).fetchall()
     ]
 
+    # Add educational content columns if missing
     new_columns = {
         "overview": "TEXT",
         "impact": "TEXT",
@@ -33,16 +46,6 @@ def initialize_database(lessons):
                 f"ALTER TABLE lessons ADD COLUMN {column_name} {column_type}"
             )
 
-    # Create lessons table
-    connection.execute("""
-        CREATE TABLE IF NOT EXISTS lessons (
-            id INTEGER PRIMARY KEY,
-            code TEXT NOT NULL UNIQUE,
-            title TEXT NOT NULL,
-            description TEXT NOT NULL
-        )
-    """)
-
     # Create users table
     connection.execute("""
         CREATE TABLE IF NOT EXISTS users (
@@ -53,8 +56,7 @@ def initialize_database(lessons):
         )
     """)
 
-    # Insert lessons
-    # Insert or update lessons and educational content
+    # Insert or update lessons
     for lesson in lessons:
         connection.execute("""
             INSERT INTO lessons
@@ -78,6 +80,7 @@ def initialize_database(lessons):
             lesson.get("example", ""),
             lesson.get("prevention", "")
         ))
+
     connection.commit()
     connection.close()
 
