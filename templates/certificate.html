@@ -1,0 +1,63 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate of Completion | OWASP Academy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <main class="certificate-page">
+        <div class="certificate-card">
+
+            <p class="certificate-brand">OWASP ACADEMY</p>
+
+            <h1>Certificate of Completion</h1>
+
+            <div class="certificate-line"></div>
+
+            <p class="certificate-intro">
+                This certificate is proudly presented to
+            </p>
+
+            <h2 class="certificate-name">{{ user_name }}</h2>
+
+            <p class="certificate-description">
+                For successfully completing all 10 OWASP Top 10 security lessons
+                and achieving the required score in the cybersecurity quiz.
+            </p>
+
+            <div class="certificate-details">
+                <p><strong>Quiz Score:</strong> {{ quiz_score }}%</p>
+                <p><strong>Completion Date:</strong> {{ completion_date }}</p>
+            </div>
+
+            <div class="certificate-footer">
+                <div>
+                    <div class="signature-line"></div>
+                    <p>OWASP Academy</p>
+                    <small>Learning Platform</small>
+                </div>
+                <div>
+                    <div class="signature-line"></div>
+                    <p>Certificate Award</p>
+                    <small>Cybersecurity Education</small>
+                </div>
+            </div>
+
+            <button class="nav-button" onclick="window.print()">
+                Print Certificate
+            </button>
+
+            <a href="{{ url_for('dashboard') }}" class="nav-button">
+                Back to Dashboard
+            </a>
+
+        </div>
+    </main>
+
+</body>
+</html>
+```

@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | OWASP Learning Portal</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="register-page">
+
+    <main class="register-container">
+
+        <section class="register-card">
+
+            <div class="register-icon">
+                🛡️
+            </div>
+
+            <span class="register-label">
+                JOIN THE SECURITY COMMUNITY
+            </span>
+
+            <h1>Create Your Account</h1>
+
+            <p class="register-subtitle">
+                Start your cybersecurity learning journey today.
+            </p>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="register-alert">
+                            ⚠️ {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('register') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="register-form-group">
+                    <label for="name">Full Name</label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        required
+                    >
+                </div>
+
+                <div class="register-form-group">
+                    <label for="email">Email Address</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        required
+                    >
+                </div>
+
+                <div class="register-form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password"
+                        minlength="8"
+                        required
+                    >
+
+                    <small>Use at least 8 characters.</small>
+                </div>
+
+                <button type="submit" class="register-button">
+                    Create Account →
+                </button>
+
+            </form>
+
+            <div class="register-footer">
+                Already have an account?
+                <a href="{{ url_for('login') }}">Sign in</a>
+            </div>
+
+            <div class="register-security-note">
+                🔒 Your account is protected with secure password hashing.
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

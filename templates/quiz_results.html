@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results | OWASP Academy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">OWASP <span>Academy</span></div>
+
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('show_lessons') }}">Lessons</a></li>
+            <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+
+    <main class="dashboard-container">
+
+        <section class="dashboard-welcome">
+            <p class="tagline">QUIZ COMPLETED</p>
+            <h1>Your Quiz Results 🎉</h1>
+            <p>Here's how you performed in the OWASP Top 10 quiz.</p>
+        </section>
+
+        <section class="dashboard-card quiz-result-summary">
+
+            <h2>Your Final Score</h2>
+
+            <p class="result-score">{{ quiz_score }}%</p>
+
+            <h3>{{ score }} out of {{ total }} correct answers</h3>
+
+            {% if quiz_score >= 90 %}
+                <p class="result-message">🌟 Excellent! You're a cybersecurity star!</p>
+            {% elif quiz_score >= 70 %}
+                <p class="result-message">👏 Great work! Keep improving!</p>
+            {% else %}
+                <p class="result-message">💪 Keep practising. You can do it!</p>
+            {% endif %}
+
+        </section>
+
+        <section class="dashboard-actions">
+
+            <h2>Answer Review</h2>
+
+            {% for item in results %}
+
+                <div class="result-question">
+
+                    <h3>Question {{ loop.index }}</h3>
+
+                    <p>{{ item.question }}</p>
+
+                    {% if item.is_correct %}
+                        <p class="correct-answer">
+                            ✓ Your answer: {{ item.selected }}
+                        </p>
+                    {% else %}
+                        <p class="wrong-answer">
+                            ✗ Your answer: {{ item.selected }}
+                        </p>
+
+                        <p class="correct-answer">
+                            Correct answer: {{ item.correct }}
+                        </p>
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </section>
+
+        <section class="dashboard-actions">
+
+            <h2>What's Next?</h2>
+
+            <a href="{{ url_for('quiz') }}" class="nav-button">
+                Try Again
+            </a>
+
+            <a href="{{ url_for('dashboard') }}" class="nav-button">
+                Back to Dashboard
+            </a>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

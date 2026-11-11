@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OWASP Quiz | OWASP Academy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">OWASP <span>Academy</span></div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('show_lessons') }}">Lessons</a></li>
+            <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            <li>
+    <form method="POST" action="{{ url_for('logout') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="nav-button">Logout</button>
+    </form>
+</li>
+        </ul>
+    </nav>
+
+    <main class="dashboard-container">
+        <section class="dashboard-welcome">
+            <p class="tagline">TEST YOUR KNOWLEDGE</p>
+            <h1>OWASP Top 10 Quiz</h1>
+            <p>Answer these questions to test your cybersecurity knowledge.</p>
+        </section>
+
+        <form method="POST" action="{{ url_for('quiz') }}"
+      onsubmit="return confirm('Are you sure you want to submit your quiz?');">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="quiz-progress-section">
+    <div class="quiz-progress-info">
+        <span>Quiz Progress</span>
+        <span id="answered-count">0 of 3 answered</span>
+    </div>
+
+    <div class="progress-bar">
+        <div id="quiz-progress-fill" class="progress-fill"
+             style="width: 0%;"></div>
+    </div>
+</div>
+
+            <div class="dashboard-card">
+                <h3>Question 1</h3>
+                <p>What does OWASP stand for?</p>
+
+                <label><input type="radio" name="q1" value="a" required> Open Web Application Security Project</label><br>
+                <label><input type="radio" name="q1" value="b"> Online Website Application Safety Program</label><br>
+                <label><input type="radio" name="q1" value="c"> Open World Application Software Platform</label>
+            </div>
+
+            <br>
+
+            <div class="dashboard-card">
+                <h3>Question 2</h3>
+                <p>What is SQL Injection?</p>
+
+                <label><input type="radio" name="q2" value="a" required> A method of improving database speed</label><br>
+                <label><input type="radio" name="q2" value="b"> An attack that inserts malicious SQL commands</label><br>
+                <label><input type="radio" name="q2" value="c"> A way to encrypt passwords</label>
+            </div>
+
+            <br>
+
+            <div class="dashboard-card">
+                <h3>Question 3</h3>
+                <p>Which practice helps protect user passwords?</p>
+
+                <label><input type="radio" name="q3" value="a" required> Store passwords as plain text</label><br>
+                <label><input type="radio" name="q3" value="b"> Share passwords with administrators</label><br>
+                <label><input type="radio" name="q3" value="c"> Use secure password hashing</label>
+            </div>
+
+            <br>
+
+            <button type="submit" class="nav-button">Submit Quiz</button>
+
+        </form>
+    </main>
+    <script>
+    const questions = ["q1", "q2", "q3"];
+
+    function updateQuizProgress() {
+        let answered = 0;
+
+        questions.forEach(function(question) {
+            const selected = document.querySelector(
+                'input[name="' + question + '"]:checked'
+            );
+
+            if (selected) {
+                answered++;
+            }
+        });
+
+        const percentage = (answered / questions.length) * 100;
+
+        document.getElementById("answered-count").textContent =
+            answered + " of 3 answered";
+
+        document.getElementById("quiz-progress-fill").style.width =
+            percentage + "%";
+    }
+
+    document.querySelectorAll('input[type="radio"]').forEach(function(input) {
+        input.addEventListener("change", updateQuizProgress);
+    });
+</script>
+
+</body>
+</html>

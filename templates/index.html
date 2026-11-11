@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OWASP Top 10 Learning Portal</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">OWASP<span>Academy</span></div>
+
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#topics">Learn</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        {% if session.get("user_id") %}
+
+    <span>Welcome, {{ session.get("user_name") }}</span>
+
+<form method="POST" action="{{ url_for('logout') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit" class="nav-button">Logout</button>
+</form>
+{% else %}
+
+    <a href="{{ url_for('login') }}" class="nav-button">Login</a>
+
+    <a href="{{ url_for('register') }}" class="nav-button">Register</a>
+
+{% endif %}
+
+    </nav>
+
+    <!-- Home Section -->
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+            <p class="tagline">CYBERSECURITY LEARNING PLATFORM</p>
+
+            <h1>
+                Master Web Security.
+                <span>Protect the Digital World.</span>
+            </h1>
+
+            <p class="hero-description">
+                Learn the OWASP Top 10 security risks through
+                simple explanations, practical examples and
+                interactive quizzes.
+            </p>
+
+            <a href="/lessons" class="primary-button">
+    Explore Learning Modules →
+</a>
+
+            <p class="hero-note">
+                Learn • Practice • Secure
+            </p>
+        </div>
+
+        <div class="hero-card">
+            <div class="shield">🛡️</div>
+            <h2>Security Starts With Knowledge</h2>
+            <p>
+                Understand vulnerabilities and learn how
+                to build safer web applications.
+            </p>
+            <div class="security-status">
+                <span class="status-dot"></span>
+                YOUR LEARNING JOURNEY STARTS HERE
+            </div>
+        </div>
+
+    </section>
+
+
+<!-- Learning Section -->
+<section class="topics" id="topics">
+
+    <div class="section-heading">
+        <p class="tagline">YOUR LEARNING PATH</p>
+        <h2>Explore Security Learning</h2>
+        <p>Choose a learning activity to get started.</p>
+    </div>
+
+    <div class="topic-container">
+
+        <div class="topic-card">
+            <div class="card-icon">📚</div>
+            <h3>OWASP Top 10</h3>
+            <p>Explore the ten major web application security risk categories.</p>
+            <a href="{{ url_for('show_lessons') }}">Explore Topics →</a>
+        </div>
+
+        <div class="topic-card">
+            <div class="card-icon">💻</div>
+            <h3>Practical Learning</h3>
+            <p>Understand vulnerabilities with examples and security explanations.</p>
+            <a href="{{ url_for('show_lessons') }}">Start Practicing →</a>
+        </div>
+
+        <div class="topic-card">
+            <div class="card-icon">📝</div>
+            <h3>Security Quizzes</h3>
+            <p>Test your cybersecurity knowledge through interactive questions.</p>
+            <a href="{{ url_for('quiz') }}">Take a Quiz →</a>
+        </div>
+
+        <div class="topic-card">
+            <div class="card-icon">📊</div>
+            <h3>Track Progress</h3>
+            <p>Monitor your learning activities and completed topics.</p>
+            <a href="{{ url_for('dashboard') }}">View Progress →</a>
+        </div>
+
+    </div>
+</section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <p class="tagline">ABOUT THE PLATFORM</p>
+        <h2>Learn Security the Smart Way</h2>
+        <p>
+            This learning portal helps students understand
+            web application security, identify common risks
+            and develop secure coding awareness.
+        </p>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <h3>OWASP Academy</h3>
+        <p>Learn Today. Secure Tomorrow.</p>
+        <p>Educational project based on OWASP security awareness.</p>
+        <p class="copyright">
+            © 2026 OWASP Learning Portal
+        </p>
+    </footer>
+
+</body>
+</html>

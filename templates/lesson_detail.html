@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ lesson.title }} | OWASP Academy</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="lesson-detail-page">
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="logo">OWASP<span>Academy</span></div>
+
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('show_lessons') }}">All Lessons</a></li>
+        </ul>
+    </nav>
+
+
+    <!-- LESSON HERO -->
+    <section class="lesson-hero">
+
+        <div class="lesson-hero-content">
+
+            <a href="{{ url_for('show_lessons') }}"
+               class="lesson-back-link">
+                ← Back to Learning Path
+            </a>
+
+            <div class="lesson-badge">
+                🛡️ SECURITY MODULE
+            </div>
+
+            <p class="lesson-code">{{ lesson.code }}</p>
+
+            <h1>{{ lesson.title }}</h1>
+
+            <p class="lesson-hero-description">
+                {{ lesson.description }}
+            </p>
+
+            <div class="lesson-meta">
+                <span>📚 OWASP Top 10: 2025</span>
+                <span>💻 Cybersecurity</span>
+                <span>🎯 Learning Module</span>
+            </div>
+
+        </div>
+
+        <div class="lesson-hero-visual">
+            <div class="lesson-shield">
+                🛡️
+            </div>
+            <p>SECURE YOUR APPLICATIONS</p>
+        </div>
+
+    </section>
+
+
+    <!-- MAIN LESSON CONTENT -->
+    <main class="lesson-main">
+
+        <div class="lesson-main-heading">
+            <span class="hero-label">LEARNING MODULE</span>
+            <h2>Understand the Threat</h2>
+            <p>Explore the security risk and understand why it matters.</p>
+        </div>
+
+
+        <section class="lesson-info-card">
+
+            <div class="lesson-info-icon">🔍</div>
+
+            <div>
+                <span class="lesson-section-label">01 — OVERVIEW</span>
+
+                <h2>About This Security Risk</h2>
+
+                <p>{{ lesson.description }}</p>
+            </div>
+
+        </section>
+
+
+      <section class="lesson-info-card">
+
+    <div class="lesson-info-icon">🔍</div>
+
+    <div>
+        <span class="lesson-section-label">01 — OVERVIEW</span>
+
+        <h2>About This Security Risk</h2>
+
+        <p>{{ lesson.overview }}</p>
+    </div>
+
+</section>
+<section class="lesson-info-card">
+
+    <div class="lesson-info-icon">⚠️</div>
+
+    <div>
+        <span class="lesson-section-label">02 — IMPACT</span>
+
+        <h2>Why Is This Risk Dangerous?</h2>
+
+        <p>{{ lesson.impact }}</p>
+    </div>
+
+</section>
+<section class="lesson-info-card">
+
+    <div class="lesson-info-icon">💻</div>
+
+    <div>
+        <span class="lesson-section-label">03 — REAL-WORLD EXAMPLE</span>
+
+        <h2>How Does This Attack Happen?</h2>
+
+        <p>{{ lesson.example }}</p>
+    </div>
+
+</section>
+<section class="lesson-info-card">
+
+    <div class="lesson-info-icon">🛡️</div>
+
+    <div>
+        <span class="lesson-section-label">04 — PREVENTION</span>
+
+        <h2>How Can We Prevent This Risk?</h2>
+
+        <p>{{ lesson.prevention }}</p>
+    </div>
+
+</section>
+
+
+        <section class="lesson-tip-card">
+
+            <div class="lesson-tip-icon">💡</div>
+
+            <div>
+                <h3>Security Mindset</h3>
+
+                <p>
+                    Always think about how an application could be misused.
+                    Understanding security risks is the first step toward
+                    building safer and more reliable software.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- COMPLETION SECTION -->
+        <section class="lesson-completion">
+
+            <div>
+                <span class="lesson-section-label">YOUR LEARNING JOURNEY</span>
+
+                <h2>Finished This Module?</h2>
+
+                <p>
+                    Mark this lesson as completed to update your
+                    OWASP Academy learning progress.
+                </p>
+            </div>
+
+            <div class="lesson-completion-actions">
+
+                <a href="{{ url_for('show_lessons') }}"
+                   class="lesson-secondary-button">
+                    Back to Lessons
+                </a>
+
+                {% if session.get("user_id") %}
+
+                    <form action="{{ url_for('complete_lesson', lesson_id=lesson.id) }}"
+                          method="POST">
+                          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                        <button type="submit" class="lesson-complete-button">
+                            ✓ Mark as Completed
+                        </button>
+
+                    </form>
+
+                {% else %}
+
+                    <a href="{{ url_for('login') }}"
+                       class="lesson-complete-button">
+                        Log In to Track Progress
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="modern-footer">
+        <h3>OWASP <span>Academy</span></h3>
+        <p>Learn Today. Secure Tomorrow.</p>
+        <small>© 2026 OWASP Learning Portal</small>
+    </footer>
+
+</body>
+</html>

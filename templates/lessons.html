@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OWASP Academy | Security Learning</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="lessons-page">
+
+    <nav class="navbar">
+        <div class="logo">OWASP<span>Academy</span></div>
+
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('show_lessons') }}">Learn</a></li>
+        </ul>
+    </nav>
+
+    <main>
+
+        <!-- HERO SECTION -->
+        <section class="lessons-hero">
+
+            <div class="hero-content">
+
+                <span class="hero-label">
+                    ⚡ CYBERSECURITY LEARNING CENTER
+                </span>
+
+                <h1>
+                    Master the Art of
+                    <span>Cybersecurity.</span>
+                </h1>
+
+                <p>
+                    Explore the OWASP Top 10 security risks.
+                    Understand vulnerabilities, discover real-world
+                    threats and learn how to build safer applications.
+                </p>
+
+                <div class="hero-stats">
+                    <div>
+                        <strong>{{ lessons|length }}</strong>
+                        <span>Security Topics</span>
+                    </div>
+
+                    <div>
+                        <strong>2025</strong>
+                        <span>OWASP Edition</span>
+                    </div>
+
+                    <div>
+                        <strong>100%</strong>
+                        <span>Learning Focus</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="hero-visual">
+                <div class="cyber-circle">
+                    <div class="cyber-inner">
+                        <span>🛡️</span>
+                        <strong>SECURE</strong>
+                        <small>YOUR DIGITAL WORLD</small>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- LESSON SECTION -->
+        <section class="modern-lessons">
+
+            <div class="lessons-heading">
+
+                <div>
+                    <span class="hero-label">YOUR LEARNING PATH</span>
+                    <h2>Explore Security Topics</h2>
+                    <p>Choose a topic and begin strengthening your security knowledge.</p>
+                </div>
+
+                <span class="topic-count">
+                    {{ lessons|length }} MODULES
+                </span>
+
+            </div>
+
+
+            <div class="modern-topic-grid">
+
+                {% for lesson in lessons %}
+
+                <article class="modern-topic-card">
+
+                    <div class="topic-card-top">
+                        <span class="topic-number">
+                            {{ "%02d"|format(loop.index) }}
+                        </span>
+
+                        <span class="topic-icon">
+                            {% if loop.index == 1 %}
+                                🔐
+                            {% elif loop.index == 2 %}
+                                🔒
+                            {% elif loop.index == 3 %}
+                                🛡️
+                            {% elif loop.index == 4 %}
+                                ⚙️
+                            {% elif loop.index == 5 %}
+                                🌐
+                            {% elif loop.index == 6 %}
+                                🧩
+                            {% elif loop.index == 7 %}
+                                🚨
+                            {% elif loop.index == 8 %}
+                                🔑
+                            {% elif loop.index == 9 %}
+                                📡
+                            {% else %}
+                                💻
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <p class="topic-code">{{ lesson.code }}</p>
+
+                    <h3>{{ lesson.title }}</h3>
+
+                    <p class="topic-description">
+                        {{ lesson.description }}
+                    </p>
+
+                    <div class="topic-card-bottom">
+
+                        <span>SECURITY MODULE</span>
+
+                        <a href="{{ url_for('lesson_detail', lesson_id=lesson.id) }}"
+                           class="topic-learn-link">
+                            Explore Topic <span>→</span>
+                        </a>
+
+                    </div>
+
+                </article>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="modern-footer">
+        <h3>OWASP <span>Academy</span></h3>
+        <p>Learn Today. Secure Tomorrow.</p>
+        <small>© 2026 OWASP Learning Portal</small>
+    </footer>
+
+</body>
+</html>
+

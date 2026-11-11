@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Dashboard | OWASP Academy</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-page">
+
+    <nav class="navbar dashboard-navbar">
+
+        <div class="logo">
+            OWASP <span>Academy</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('show_lessons') }}">Lessons</a></li>
+            <li><a href="{{ url_for('quiz') }}">Take Quiz</a></li>
+            <li>
+    <form method="POST" action="{{ url_for('logout') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="nav-button">Logout</button>
+    </form>
+</li>
+        </ul>
+
+    </nav>
+
+    <main class="dashboard-container">
+
+        <!-- WELCOME SECTION -->
+
+        <section class="dashboard-welcome">
+
+            <span class="dashboard-tagline">
+                YOUR LEARNING SPACE
+            </span>
+
+            <h1>Welcome back, {{ session.get("user_name") }}! 👋</h1>
+
+            <p>
+                Continue building your cybersecurity knowledge
+                and become a security-aware professional.
+            </p>
+
+            <a href="{{ url_for('show_lessons') }}"
+               class="dashboard-primary-button">
+                Continue Learning →
+            </a>
+
+        </section>
+
+
+        <!-- STATISTICS SECTION -->
+
+        <section class="dashboard-stats">
+
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <h3>Total Lessons</h3>
+                <p>{{ total_lessons }}</p>
+                <small>Available learning modules</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <h3>Completed Lessons</h3>
+                <p>{{ completed_lessons }}/{{ total_lessons }}</p>
+                <small>Your completed modules</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <h3>Latest Quiz Score</h3>
+                <p>{{ quiz_score|default(0, true) }}%</p>
+                <small>Your latest quiz performance</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🚀</div>
+                <h3>Learning Progress</h3>
+                <p>{{ progress }}%</p>
+                <small>Overall learning completion</small>
+            </div>
+
+        </section>
+
+
+        <!-- LEARNING PROGRESS -->
+
+        <section class="dashboard-panel">
+
+            <div class="panel-heading">
+                <div>
+                    <span class="dashboard-tagline">YOUR JOURNEY</span>
+                    <h2>Learning Progress</h2>
+                </div>
+
+                <span class="progress-percentage">{{ progress }}%</span>
+            </div>
+
+            <div class="dashboard-progress-track">
+                <div class="dashboard-progress-fill"
+                     style="width: {{ progress }}%;">
+                </div>
+            </div>
+
+            <p>
+                You have completed {{ completed_lessons }}
+                out of {{ total_lessons }} lessons.
+                Keep going!
+            </p>
+
+        </section>
+
+
+        <!-- LEARNING ACTIONS -->
+
+        <section class="dashboard-panel">
+
+            <span class="dashboard-tagline">KEEP LEARNING</span>
+
+            <h2>Continue Your Cybersecurity Journey</h2>
+
+            <p>
+                Explore the OWASP Top 10 and strengthen your
+                understanding of web application security.
+            </p>
+
+            <div class="dashboard-action-links">
+
+                <a href="{{ url_for('show_lessons') }}"
+                   class="dashboard-primary-button">
+                    Explore Lessons →
+                </a>
+
+                <a href="{{ url_for('quiz') }}"
+                   class="dashboard-secondary-button">
+                    Take a Quiz →
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- QUIZ HISTORY -->
+
+        <section class="dashboard-panel">
+
+            <span class="dashboard-tagline">YOUR PERFORMANCE</span>
+
+            <h2>Quiz Attempt History</h2>
+
+            <p>Review your previous quiz attempts.</p>
+
+            {% if quiz_history %}
+
+                <div class="quiz-history-list">
+
+                    {% for attempt in quiz_history %}
+
+                        <div class="quiz-history-item">
+
+                            <div>
+                                <h3>Quiz Attempt {{ loop.index }}</h3>
+                                <small>Your saved quiz result</small>
+                            </div>
+
+                            <span class="quiz-history-score">
+                                {{ attempt["score"] }}%
+                            </span>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="dashboard-empty-state">
+                    <span>📝</span>
+                    <p>You haven't attempted any quizzes yet.</p>
+                </div>
+
+            {% endif %}
+
+            <a href="{{ url_for('quiz') }}"
+               class="dashboard-secondary-button">
+                Take Quiz Again →
+            </a>
+
+        </section>
+
+
+        <!-- CERTIFICATE -->
+
+        <section class="dashboard-certificate">
+
+            <div class="certificate-icon">🏆</div>
+
+            <div class="certificate-content">
+
+                <span class="dashboard-tagline">
+                    YOUR ACHIEVEMENT
+                </span>
+
+                <h2>Certificate of Completion</h2>
+
+                {% if certificate_eligible %}
+
+                    <p>
+                        Congratulations! You've qualified for
+                        your OWASP Academy certificate.
+                    </p>
+
+                    <a href="{{ url_for('certificate') }}"
+                       class="dashboard-primary-button">
+                        View My Certificate →
+                    </a>
+
+                {% else %}
+
+                    <p>
+                        Complete all 10 lessons and score at least
+                        70% in the quiz to unlock your certificate.
+                    </p>
+
+                    <p class="certificate-progress">
+                        Lessons completed:
+                        {{ completed_lessons }} / {{ total_lessons }}
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
